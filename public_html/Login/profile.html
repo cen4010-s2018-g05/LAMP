@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Login page">
+    <meta name="author" content="Neil">
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      
+    <!-- Default website theme -->
+    <link href="../css/mydefaultstyle.css" rel="stylesheet">
+
+    
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Group 5</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+<!-- Page Heading -->
+      <h1 class="my-4">My Account
+      </h1>
+        <?php
+                
+        try{
+            
+            //form var
+            $name = $_POST[htmlspecialchars("name")];
+            $pass = $_POST[htmlspecialchars("pass")];
+            if (empty($name)){
+                throw new Exception("Please enter a Username");
+            }
+            if (empty($pass)){
+                throw new Exception("Please enter a password");
+            }
+            //entering mysql
+            include 'sqlinfo.php';
+            //searching for matching username
+            $stmt = $conn->prepare("SELECT * FROM Accounts WHERE 
+            Username='$name' and Pass='$pass'");
+            $stmt->execute();
+            $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result= $stmt->fetchall();
+            if (count($result) == 0) {
+                //did not find matching username and password
+                include "loginecho.php";
+                throw new Exception("Account not found or incorrect password. Please try again");
+            }
+            //stores array in account then into standard variables
+            $account = $result[0];
+            $type = $account["Type"];
+            $fname = $account["Fname"];
+            $lname = $account["Lname"];
+            $email = $account["Email"];
+            $phone = $account["Phone"];
+            $address = $account["Address"];
+            $city = $account["City"];
+            $state = $account["State"];
+            $zip = $account["Zip"];
+            $account = null;
+            if ($type== "user"){
+                //user profile
+                echo "<table><tr><th>".$name."</th><th>".$pass."</th><th>".$fname." ".$lname."</th><th>".$email."</th><th>".$phone."</th><th>".$address." ".$city.", ". $state." ". $zip."</th></tr></table>";
+                //show orders
+                //show messages
+                echo "<h3>My Messages</h3>";
+                $stmt = $conn->prepare("SELECT * FROM Contact WHERE 
+                Email='$email'");
+                $stmt->execute();
+                $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $result= $stmt->fetchall();
+                //var_dump($result);
+                
+                echo "<p id = \"Time\"></p>";
+                if (count($result) > 0) {
+                    echo "<table><tr><th>Delete</th><th>Date and Time</th><th>Subject</th><th>Message</th></tr>";
+                    for($i=0;$i<count($result);$i++) {
+                        $row = $result[$i];
+                        //delete button
+                        echo "<tr><td><button type='button' class=\"btn btn-gold\" onclick='removemsg(\"Time". $i. "\")'>Delete</button></td>";
+                        //message details
+                        echo "<td id='Time".$i."'>".$row["Time"]."  </td><td>".$row["Subject"]."  </td><td>";
+                        echo $row["Message"]."  </td></tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "You have no messages";
+                }  
+                }//end user
+
+            elseif ($type == "Seller"){
+                //seller profile
+                //show orders
+                //show messages
+                echo "All Messages:";
+                $stmt = $conn->prepare("SELECT * FROM Contact");
+                $stmt->execute();
+                $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $result= $stmt->fetchall();
+                //var_dump($result);
+                if (count($result) > 0) {
+                    echo "<table><tr><th>Date and Time  </th><th>Email     </th><th>Subject  </th><th>Message</th></tr>";
+                    for($i=0;$i<count($result);$i++) {
+                        $row = $result[$i];
+                        echo "<tr><td id='Time".$i."'>".$row["Time"]."</td><td>".$row["Email"]."</td><td>".$row["Subject"]."</td><td>";
+                        echo $row["Message"]."</td></tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "You have no messages";
+                }  
+            }//end seller
+            elseif ($type == "Admin"){
+                //admin profile
+            }//end admin
+            
+            $conn = null;
+
+                
+            }//end of try           
+        catch(PDOException $e){
+            echo "Connection failed: " . $e->getMessage();
+        }   
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+
+        ?>
+      
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ValEnterprise 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>
