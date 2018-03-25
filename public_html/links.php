@@ -30,7 +30,7 @@
                         //Product name button
                         echo "<tr><td>".$row["Product"]."</td><td>".$row["Category"]."</td>";
                         //message details
-                        echo "<td><a href='".$row["Link"]."/index.html'>".$row["Product"]."' product</a>  </td></tr>";
+                        echo "<td><a href='".$row["Link"]."/index.html'>".$row["Product"]."</a>  </td></tr>";
                     }
                     echo "</table>";
                 } else {

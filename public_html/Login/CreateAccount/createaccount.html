@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Create Account">
+    <meta name="author" content="Neil">
+
+    <title> Create Account</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      
+    <!-- Default website theme -->
+    <link href="../../css/mydefaultstyle.css" rel="stylesheet">
+
+    
+      
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Group 5</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Shop</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Login/login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div> 
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading -->
+      <h1 class="my-4">Create Account
+      </h1>
+
+        <form action="createaccount.php" method="post">
+            <div class="form-group"> <!-- username-->
+                 <div class="form-row"> 
+                     <div class="col-lg-2 col-md-12">
+                         <label for="name">Znumber</label>
+                     </div>
+                     <div class="col-lg-3 col-md-6 col-sm-12">
+                <input type="text" class="form-control" pattern="[0-9]{8}" id="znumber" name="znumber" placeholder="########" required>         
+                     </div>
+                </div>
+            </div>
+            
+            <div class="form-group">  <!-- password-->
+                 <div class="form-row">
+                     <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label for="Password1">Password</label>
+                     </div>
+                     <div class="col-lg-3 col-md-6 col-sm-12">
+                        <input type="password" class="form-control" pattern=".{1,20}" id="pass1" name="pass1" placeholder="Password" required>
+                     </div>
+                     <div class="col-lg-2 col-md-6 col-sm-12">
+                        <label for="Password1">Confirm password</label>
+                     </div>
+                      <div class="col-lg-3 col-md-6 col-sm-12">
+                        <input type="password" class="form-control" pattern=".{1,20}" id="pass2" name="pass2" placeholder="Password" required>                     
+                     </div>
+                     <div class="col-lg-2 col-md-12 col-sm-12">
+                     <label id="match"></label>
+                     </div>
+
+                </div>
+            </div> 
+            
+            <div class="form-group">   
+                <div class="form-row">
+                     <div class="col-md-6 col-sm-12"> <label for="fname">First Name</label>
+                    <input type="text" class="form-control" pattern=".{1,15}" id="fname" name="fname" placeholder="First" required></div>
+                     <div class="col-md-6 col-sm-12">  
+                         <label for="lname">Last Name</label>
+                    <input type="text" class="form-control" pattern=".{1,30}" id="lname" name="lname" placeholder="Last" required></div>
+                </div>
+                <div class="form-row">
+                     <div class="col-lg-6 col-md-6 col-sm-12"> <label for="email">Email</label>
+                    <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email" name="email" placeholder="Email@fau.edu" describedby="emailHelp" required></div>
+                     <div class="col-lg-6 col-md-6 col-sm-12">  
+                         <label for="phone">Phone Number</label>
+                         <input type="text" class="form-control" pattern="[0-9]{10}" id="phone" name="phone" placeholder="5551234567">
+                    </div>
+                </div> 
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="year">Grad year</label>
+                        <input type="text" class="form-control" pattern="[0,9]{4}" id="year" name="year" placeholder="20##">
+                    </div>
+                </div>
+
+            </div> 
+            <div class="row justify-content-end">
+                <div class="col-sm-2 mb-2">
+              <button type="submit" class="btn btn-gold">Submit</button>                   
+                </div>
+              </div>    
+                
+        </form>
+    </div>
+    <!-- /.container -->
+
+      <!--Jscript-->
+      <script>
+            document.getElementById("pass2").onkeyup = function() {matchpass()};
+
+            function matchpass() {
+                var p1 = document.getElementById("pass1");
+                var p2 = document.getElementById("pass2");
+                if(p1.value != p2.value){
+                    document.getElementById("match").innerHTML = "Passwords do not match";
+                }
+                else{ document.getElementById("match").innerHTML = "Passwords match";}
+            }
+      </script>
+
+      
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ValEnterprise 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>

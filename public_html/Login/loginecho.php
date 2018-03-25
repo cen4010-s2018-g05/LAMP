@@ -1,7 +1,7 @@
 <?php
           echo '<form action="profile.php" method="post">    
                   <div class="form-group">
-                  <label for="name">Username</label>
+                  <label for="name">Email</label>
                     <input type="text" class="form-control" id="name" name="name"  pattern=".{1,20}" placeholder="Enter Username">
                     </div>
 
