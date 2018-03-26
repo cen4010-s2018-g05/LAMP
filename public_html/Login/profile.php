@@ -90,7 +90,7 @@
             $account = $result[0];
             $Znumber = $account["Znumber"];
             $name = $account["Name"];
-            
+            $hashpass = $account["Password"];
             $fname = $account["First"];
             $lname = $account["Last"];
             $phone = $account["Phone"];
@@ -104,7 +104,7 @@
             //determine if password or cookie was used
             if (isset($pass)){
                 
-                if (password_verify($pass, $account["Password"])){
+                if (password_verify($pass, $hashpass)){
                     $verified = true;
                 }
             }
@@ -136,7 +136,7 @@
                     $stmt->execute();
                 }
                 else {
-                    include loginecho.php;
+                    include "loginecho.php";
                     throw new Exception("Missmatched ID, due to inactivity or use on a different computer. Please login again.");
                 }
             }
@@ -156,22 +156,24 @@
             }
             if ($verified == true){
                 echo "User and password matched - Valid\n". $type;
-            }
-            else {echo "User and password not matched - Not valid".$type;}
-            $passwordhashtest = password_hash($pass, PASSWORD_DEFAULT);
-            echo "testing password hash and password_verify\n". $pass. "\n"
-                .$passwordhashtest."\n pass verify" ;
-            if (password_verify($pass, $passwordhashtest)){
-                echo "self test yes";
-            }
-            else {echo "self test no";}
-            if ($type == "staff"){
-             echo '<form action="additem.php">
-                <button type="submit" class="btn id="additem.php" href="additem.php">Add new item</button>                   
-                </form>';
-            }
-            
-            
+           
+                if ($type == "staff"){
+                 echo '<form action="additem.php">
+                    <button type="submit" class="btn id="additem.php" href="additem.php">Add new item</button>                   
+                    </form>';
+                }
+                else if ($type =="user"){
+                    echo "User account\n
+                    <table><tr><th>Znumber</th><th>Email</th><th>Name</th><th>Phone</th><th>Grad Year</th></tr>";
+                    echo "<tr><td>".$Znumber."</td><td>".$Email."</td>";
+                        echo "<td>". $fname ." ". $lname." </td><td>".$phone."</td><td>".$year."</td></tr>";
+                        echo "</table>";
+                }
+                
+             }
+            else{ echo "User and password did not match.";
+                include "loginecho.php";
+                }
             $conn = null;
     
             }//end of try           

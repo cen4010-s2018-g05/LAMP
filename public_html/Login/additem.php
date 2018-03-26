@@ -52,16 +52,16 @@
            $verified = true;
             if ($verified == true){
              echo '
-        <h1>DID NOT Verify</h1>
+        <h1>DID NOT Verify user</h1>
         
         <form id="part1" action="makefileindir.php" method="post">
         <p>    
-        Category name:<input type="text" name="cat" value="Diode"><br>
-        Product name:<input type="text" name="item" value="5.1v"><br>
+        Category name:<input type="text" name="cat" value="Diode" required>Does not support the "%" character<br>
+        Product name:<input type="text" name="item" value="5.1v" required>Does not support the "%" character<br>
         SKU:<input type="text" name="sku" value="1n751a"><br>
         Newark:<input type="text" name="newark" value="13T8945"><br>
         Quantity:<input type="text" name="qty" value="2500"><br>
-        Cost:<input type="text" name="cost" value=".019"><br>
+        Cost:<input type="text" name="cost" value=".019" required><br>
         Retail:<input type="text" name="retail" value=".60"><br>
         Bulk:<input type="text" name="bulk" value=".40"><br>
         Jobber:<input type="text" name="jobber" value=".30"><br>
@@ -75,7 +75,7 @@
         Extra1:<input type="text" name="ex1" value=""><br>
         Extra2:<input type="text" name="ex2" value=""><br>
         Extra3:<input type="text" name="ex3" value=""><br>
-        <input type="submit" name="submit1"> 
+        <input type="submit" name="submit1" vaule="Submit"> 
             </p>
         </form>
         <h3>Upload file not functial yet</h3>

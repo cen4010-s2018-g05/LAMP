@@ -125,7 +125,7 @@
                     
             // use exec() because no results are returned
             $sql->execute();    
-               /* 
+               
              $sql = $conn->prepare("INSERT INTO Price (Product, Retail, Bulk, Jobber) Values (:Product, :Retail, :Bulk, :Jobber)
              ");
             $sql->bindParam(':Product', $Product);
@@ -136,13 +136,13 @@
             // use exec() because no results are returned
             $sql->execute();        
             
-             $sql = $conn->prepare("INSERT INTO Location (Product, Location1, Location2, Location3) Values (:Product, :Location1: :Location2, :Location3)
+             $sql = $conn->prepare("INSERT INTO Location (Product, Location1, Location2, Location3) Values (:Product, :Location1, :Location2, :Location3)
              ");
             $sql->bindParam(':Product', $Product);
             $sql->bindParam(':Location1', $Location1);
             $sql->bindParam(':Location2', $Location2);
             $sql->bindParam(':Location3', $Location3);    
-              */      
+                
             // use exec() because no results are returned
             $sql->execute();        
             $sql = $conn->prepare("INSERT INTO Link (Product, Category, Link) Values (:Product, :Category, :Link)
@@ -155,7 +155,8 @@
             $sql->execute();        
             //end mysql
             $conn = null;
-            
+            $money = round($Retail,2);
+
             //creating new file, will overwrite exsisting file
             $myfile = fopen($filename,"w");
             fwrite($myfile, '
@@ -217,7 +218,7 @@
 
       <div class="row">
 
-        <h1>CURRENTLY HARDCODED WILL CHANGE TO PULL INFO FROM DATABASE</h1>
+        
         <!-- /.col-lg-3 -->
 
         <div class="col-lg-9 col-md-8">
@@ -228,7 +229,7 @@
               <h3 class="card-title">'.$Product.'</h3>
                 <div class="row">
                     <div class="col-lg-2 col-md-12">
-                        <h4>'.$Cost.'</h4>                    
+                        <h4>$'.$money.'</h4>                    
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-4">
 
@@ -253,6 +254,23 @@
                 </div> 
 
               <p class="card-text">Vendor : '.$Vendor.'</p>
+              <p class="card-text">SKU : '.$SKU.'</p>
+              <p class="card-text">Newark : '.$Newark.'</p>
+              <p class="card-text">Category : '.$Category.'</p>
+              <p class="card-text">Cost : '.$Cost.'</p>
+              <p class="card-text">Quantity : '.$Quantity.'</p>              
+              <p class="card-text">Retail : '.$Retail.'</p>
+              <p class="card-text">Bulk : '.$Bulk.'</p>
+              <p class="card-text">Jobber : '.$Jobber.'</p>
+              <p class="card-text">Location1 : '.$Location1.'</p>
+              <p class="card-text">Location2 : '.$Location2.'</p>
+              <p class="card-text">Location3 : '.$Location3.'</p>
+              <p class="card-text">Description Long : '.$Descriptionlong.'</p>
+              <p class="card-text">Description Short : '.$Descriptionshort.'</p>
+              <p class="card-text">ISBN : '.$ISBN.'</p>
+              <p class="card-text">Extra1 : '.$Extra1.'</p>
+              <p class="card-text">Extra2 : '.$Extra2.'</p>
+              <p class="card-text">Extra3 : '.$Extra3.'</p>
             </div>
           </div>
           <!-- /.card -->
