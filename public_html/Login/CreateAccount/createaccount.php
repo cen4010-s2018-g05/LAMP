@@ -72,6 +72,12 @@
             if (empty($znumber)){
                 throw new Exception("Please enter a valid Znumber (do not enter the Z)");
             }
+            if (!is_int($znumber)){
+                throw new Exception("Please enter a valid Znumber (do not enter the Z)");
+            }
+            if ($znumber > 99999999 or $znumber < 0){
+                throw new Exception("Please enter a valid Znumber (do not enter the Z)");
+            }
             if (empty($pass1)){
                 throw new Exception("Please enter a confirmed password");
             }
@@ -112,7 +118,7 @@
              ");
 
             $sql->bindParam(':Znumber', $znumber);
-            $sql->bindParam(':Pass', $passhash);
+            $sql->bindParam(':Pass', $hashpass);
             $sql->bindParam(':Email', $email);
             $sql->bindParam(':Fname', $fname);
             $sql->bindParam(':Lname', $lname);

@@ -148,6 +148,8 @@
             $sql = $conn->prepare("INSERT INTO Link (Product, Category, Link) Values (:Product, :Category, :Link)
              ");
             $Link = $_POST[htmlspecialchars("cat")]."/".$itemname;
+            //replaces '%' with '%37' which should fix error with bad links
+            $Link = str_replace('%', '%37', $Link);    
             $sql->bindParam(':Link', $Link);       
             $sql->bindParam(':Product', $Product); 
             $sql->bindParam(':Category', $Category);
