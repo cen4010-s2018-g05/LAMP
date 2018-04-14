@@ -79,14 +79,19 @@
           <div class="card my-4">
             <h5 class="card-header">Search product names and keywords</h5>
             <div class="card-body">
-                <form name="search" id="search" action="searchresult.php">
-              <div class="input-group">
-                <input type="text" name="keywordinput" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
-                 
-              </div>
+                <form  action="searchresult.php" method="post">
+              
+                    <div class="form-group">
+                                     <label for="keywordinput">Search</label>
+                    <input type="text" class="form-control" id="keywordinput" name="keywordinput"  placeholder="Search for...">
+                    </div>
+
+                 <div class="row justify-content-center">
+                  <div class="col-sm-2 mb-2">
+                      <button type="submit" class="btn" id="submitbtn">Submit</button>                   
+                    </div>
+                  </div>
+              
                  </form>
             </div>
           </div> 
@@ -95,7 +100,7 @@
           
       </div>
     </div>
-      
+      </div>    
   
 
     <!-- Bootstrap core JavaScript -->

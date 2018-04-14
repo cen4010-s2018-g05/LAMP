@@ -11,10 +11,10 @@
     <title>Inventory</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       
     <!-- Default website theme -->
-    <link href="../../css/mydefaultstyle.css" rel="stylesheet">
+    <link href="css/mydefaultstyle.css" rel="stylesheet">
  
        <script>
             function setkeyword(item) {
@@ -58,7 +58,7 @@
      <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Group 5</a>
+        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05">Group 5</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -66,7 +66,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -88,7 +88,7 @@
     <div class="container">
         <div class="row">
             <h3>Results</h3>
-            
+                <div class="col-sm-12">
 <?php
 
     try {
@@ -114,7 +114,7 @@
             //prepared statments help prevent hacking
             //required search as not all products have keywords
             $stmt = $conn->prepare("SELECT * FROM Link WHERE 
-            Product = :Product");
+            Product LIKE :Product");
             $stmt->bindParam(':Product', $wildcardfindtxt);
             $stmt->execute();
             $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -122,13 +122,15 @@
             if (count($result) > 0) {
                 //at least 1 product was found; display on screen
                 for ($x = 0; $x < count($result); $x++){
-                    echo '<p>'.$result[x]["Product"].' '.$result[x]["Link"]. '</p>\n'; 
-                    array_push($listresult, $result[x]["Product"]);
+                    echo '<br>
+                    <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                    '; 
+                    array_push($listresult, $result[$x]["Product"]);
                 }
             } 
             
             //searches keyword table and returns a product array
-             $sql = $conn->prepare("SELECT Products FROM Keyword WHERE Keyword = :Keyword
+             $sql = $conn->prepare("SELECT Product FROM Keyword WHERE Keyword LIKE :Keyword
              ");
             $sql->bindParam(':Keyword', $wildcardfindtxt);
             $sql->execute();
@@ -146,7 +148,7 @@
             } 
             if (count($resultremaining) >0){
                 //get product link pair
-                $sql = $conn->prepare("SELECT * FROM Link WHERE Product = :Product
+                $sql = $conn->prepare("SELECT * FROM Link WHERE Product LIKE :Product
                 ");
                 foreach($resultremaining as $item){
                     $sql->bindParam(':Product', $item);
@@ -154,7 +156,11 @@
                     $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                     $result= $stmt->fetchAll();
                     if (count($result)> 0){
-                         echo '<p>'.$result[x]["Product"].' '.$result[x]["Link"]. '</p>\n';
+                        for ($x = 0; $x < count($result); $x++){ 
+                            echo '<br>
+                            <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                    '; 
+                        }
                     }
                 }
                 unset($item);    
@@ -173,6 +179,8 @@
         }
 
 ?>
+                    </div>
+            
         </div>
       </div>
     </body>

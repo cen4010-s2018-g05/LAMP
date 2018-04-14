@@ -159,8 +159,12 @@
            
                 if ($type == "staff"){
                  echo '<form action="additem.php">
-                    <button type="submit" class="btn id="additem.php" href="additem.php">Add new item</button>                   
-                    </form>';
+                    <button type="submit" class="btn" id="additem" href="additem.php">Add new item</button>                   
+                    </form> <br>
+                    <form action="Staff/listinventory.php">
+                    <button type="submit" class="btn" id="addkeyword" href="Staff/listinventory.php">Add keywords to items</button>                   
+                    </form>
+                    ';
                 }
                 else if ($type =="user"){
                     echo "User account\n
@@ -184,5 +188,7 @@
             echo $e->getMessage();
         }
     ?>
+
+        
     </body>
-    
+</html>

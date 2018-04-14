@@ -72,9 +72,7 @@
             if (empty($znumber)){
                 throw new Exception("Please enter a valid Znumber (do not enter the Z)");
             }
-            if (!is_int($znumber)){
-                throw new Exception("Please enter a valid Znumber (do not enter the Z)");
-            }
+
             if ($znumber > 99999999 or $znumber < 0){
                 throw new Exception("Please enter a valid Znumber (do not enter the Z)");
             }

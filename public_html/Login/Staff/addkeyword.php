@@ -92,13 +92,17 @@
       </h1>
         
         <?php
-            
+         try{   
         //validate
         $verified = true;
         if ($verified == true){
             //get product names from listinventory
-            $list = $_POST[htmlspecialchars("checkbox")]
-            
+            if(isset($_POST['checkbox'])){
+            $list = $_POST['checkbox'];
+            }
+            else{
+                throw new Exception("No boxes were checked");
+            }
             //for each produt name get keyword list
             
             //entering mysql
@@ -122,7 +126,7 @@
                 $keywordlist = "";
                 if (count($result) > 0) {
                     //product and keyword pairs found
-                    for ($x = 0; $x < count($result); x++){
+                    for ($x = 0; $x < count($result); $x++){
                         if ($x ==0){
                             $keywordlist = $result[$x]["Keyword"];
                         }
@@ -138,14 +142,11 @@
                 //display form
                 echo '
                 
-         <form id="'.$Product.'" onsubmit="" method="post">
+         <form id="'.$Product.'" action="javascript:setkeyword('.$Product.', '. $count.')">
             <div class="form-group"> 
                  <div class="form-row"> 
                      <div class="col-lg-2 col-md-12">
-                         <label for="">Product: </label>
-                     </div>
-                     <div class="col-md-4 col-sm-12">
-                            <input type="text" id="Product'.$count.'" value="'$Product'" readonly>
+                         <label for="">Product: <input type="hidden" id="Product'.$count.'" value="'.$Product.'" readonly> '.$Product.'</label>
                      </div>
                       <div class="col-md-4 col-sm-12">
                             <label id="keywords'.$count.'">'.$keywordlist.'</label>
@@ -161,7 +162,7 @@
                      
                    <div class="row justify-content-end">
                 <div class="col-sm-2 mb-2">
-              <button  onclick="setkeyword('.$Product.', '. $count.')" class="btn btn-gold">Submit</button>                   
+              <button  onclick="setkeyword('.$Product.', '. $count.')" class="btn btn-gold">Add Keyword</button>                   
                 </div>
               </div>    
                 </div>
@@ -171,10 +172,17 @@
                 
                 ';
             }
-            unlink($Product);
+            unset($Product);
         }
+         }
+        catch(PDOException $e){
+            echo "Connection failed: " . $e->getMessage();
+        }   
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+             
         ?>
-
 
       </div>
     </body>

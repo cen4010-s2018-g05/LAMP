@@ -11,10 +11,10 @@
     <title>Inventory</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       
     <!-- Default website theme -->
-    <link href="../css/mydefaultstyle.css" rel="stylesheet">
+    <link href="../../css/mydefaultstyle.css" rel="stylesheet">
 
     
   </head>
@@ -50,8 +50,9 @@
         <div class="container">
             
             
-            <form action="addkeyword.php">
+            <form action="addkeyword.php" method="post">
 <?php
+        try{    
             //validate code here
             $verified = true;
             
@@ -72,22 +73,28 @@
                 //result contains product-category pairs
                 if (count($result) > 0) {
                     $totalrows = count($result);
-                    echo '<input type="text" value="'.$totalrows.'" readonly>\nAdd keyword to checked items';
-                    echo "<table><tr><th>Product</th><th>Category</th><th></th>Add keyword</tr>";
+                    echo '<input type="hidden" value="'.$totalrows.'" readonly>Add keyword to checked items';
+                    
                     for($i=0;$i<count($result);$i++) {
                         $row = $result[$i];
                         //Product name button
-                        echo "<tr><td>".$row["Product"]."</td><td>".$row["Category"]."</td>";
-                        //message details
-                        echo '<td><input type="checkbox" name="checkbox[]"  value="'.$row["Product"].'> </td></tr>';
+                        echo ' <br>
+                        <input type="checkbox" name="checkbox[]"   value="'.$row["Product"].'"> '.$row["Product"];
                     }
-                    echo "</table>";
-                    echo '<input type="submit" value="submit">';
+                    
+                    echo '<br><input type="submit" value="submit">';
                 } else {
                     echo "You have no items";
                 } 
             }
                 $conn = null;
+        }
+        catch(PDOException $e){
+            echo "Connection failed: " . $e->getMessage();
+        }   
+        catch(Exception $e){
+            echo $e->getMessage();
+        }        
 ?>
                 
                 </form>
