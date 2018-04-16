@@ -133,29 +133,32 @@
              $sql = $conn->prepare("SELECT Product FROM Keyword WHERE Keyword LIKE :Keyword
              ");
             $sql->bindParam(':Keyword', $wildcardfindtxt);
+
             $sql->execute();
-            $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $result= $stmt->fetchAll();
-            $resultremaining = array();
+            $result= $sql->fetchAll();
+            $resultremaining = array();            
             if (count($result) > 0) {
                 //at least 1 product was found
                 for ($x = 0; $x < count($result); $x++){
                     //compairs results with previous list
                     if(!in_array($result[$x]["Product"], $listresult)){
-                        array_push($reusltremaining, $result[$x]["Product"]);
+                        array_push($resultremaining, $result[$x]["Product"]);
                     }
                 }
             } 
+
             if (count($resultremaining) >0){
                 //get product link pair
+                
                 $sql = $conn->prepare("SELECT * FROM Link WHERE Product LIKE :Product
                 ");
                 foreach($resultremaining as $item){
                     $sql->bindParam(':Product', $item);
                     $sql->execute();
                     $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                    $result= $stmt->fetchAll();
+                    $result= $sql->fetchAll();
                     if (count($result)> 0){
+                        
                         for ($x = 0; $x < count($result); $x++){ 
                             echo '<br>
                             <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>

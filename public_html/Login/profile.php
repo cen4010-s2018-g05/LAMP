@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +47,8 @@
         </div> 
       </div>
     </nav>
-
+        <div class="container">
+            <div class="row">
     <?php
         try{
             $verified = false;
@@ -155,19 +157,30 @@
                 $type = $result[0]["Type"];
             }
             if ($verified == true){
-                echo "User and password matched - Valid\n". $type;
+                echo "
+                <div class='col-sm-12'>
+                <h1>Hello ".$Email."</h1>
+                </div>
+                ";
            
                 if ($type == "staff"){
-                 echo '<form action="additem.php">
+                 echo '
+            
+                <div class="col-sm-4">    
+                    <form action="additem.php">
                     <button type="submit" class="btn" id="additem" href="additem.php">Add new item</button>                   
-                    </form> <br>
+                    </form>
+                </div>    
+            
+                    ';
+                    /* code for add keyword button
                     <form action="Staff/listinventory.php">
                     <button type="submit" class="btn" id="addkeyword" href="Staff/listinventory.php">Add keywords to items</button>                   
                     </form>
-                    ';
+                    */
                 }
                 else if ($type =="user"){
-                    echo "User account\n
+                    echo "
                     <table><tr><th>Znumber</th><th>Email</th><th>Name</th><th>Phone</th><th>Grad Year</th></tr>";
                     echo "<tr><td>".$Znumber."</td><td>".$Email."</td>";
                         echo "<td>". $fname ." ". $lname." </td><td>".$phone."</td><td>".$year."</td></tr>";
@@ -189,6 +202,7 @@
         }
     ?>
 
-        
+            </div>
+        </div>
     </body>
 </html>
