@@ -40,7 +40,7 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+              <a class="nav-link" href="index.php">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>

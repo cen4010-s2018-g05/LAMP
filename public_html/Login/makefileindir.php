@@ -229,7 +229,7 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/login.html">Login</a>
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/index.php">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -455,7 +455,7 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/login.html">Login</a>
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/index.php">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
