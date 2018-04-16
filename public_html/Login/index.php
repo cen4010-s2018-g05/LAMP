@@ -1,5 +1,12 @@
 <?php
+function redirect(){
+    header('Location: profile.php');
+    die();
+}
 session_start();
+if (isset($_SESSION["email"])){
+    redirect();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

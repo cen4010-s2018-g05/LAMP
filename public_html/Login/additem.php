@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +11,7 @@
     <meta name="description" content="Login page">
     <meta name="author" content="Neil">
 
-    <title>Profile</title>
+    <title>Add New Item</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -53,7 +56,7 @@
             <div class="col-sm-12">
     <?php
         try{
-           $verified = true;
+           include "fastvalidate.php";
             if ($verified == true){
              echo '
         

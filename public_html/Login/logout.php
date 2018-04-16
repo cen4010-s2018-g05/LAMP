@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <html lang="en">
@@ -9,13 +12,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Group 5 Links</title>
+    <title>Group 5 Logout</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
       
     <!-- Default website theme -->
-    <link href="css/mydefaultstyle.css" rel="stylesheet">
+    <link href="../css/mydefaultstyle.css" rel="stylesheet">
     
       <!-- Custom styles for this template -->
     <style>
@@ -45,7 +48,7 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/index.php">Login</a>
+              <a class="nav-link" href="../Login/index.php">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -59,12 +62,9 @@
         <div class="row">
             <div class="col-sm-12">
 
-<?php
-                
-        try{
-            
-            $myfile = null;
-            
+    <?php
+            $Znumber = $_SESSION["znum"];    
+            //entering mysql
             $servername = "localhost";
             $username = "CEN4010_S2018g05";
             $password = "SQLgroup5";
@@ -72,36 +72,22 @@
             $conn = new PDO("mysql:host=$servername;dbname=CEN4010_S2018g05",trim($username),trim($password));
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            //searching for matching username
-            $stmt = $conn->prepare("SELECT * FROM Link");
-            $stmt->execute();
-            $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $result= $stmt->fetchall();
-            if (count($result) > 0) {
-                    echo "<table><tr><th>Product</th><th>Category</th><th>Link</th></tr>\n";
-                    for($i=0;$i<count($result);$i++) {
-                        $row = $result[$i];
-                        //Product name button
-                        echo "<tr><td>".$row["Product"]."</td><td>".$row["Category"]."</td>";
-                        //message details
-                        echo "<td><a href='".$row["Link"]."/index.html'>".$row["Product"]."</a>  </td></tr>\n";
-                    }
-                    echo "</table>";
-                } else {
-                    echo "You have no items";
-                } 
-            $result = null;
-            $conn = null;
-            }
-                    catch(PDOException $e){
-            echo "Connection failed: " . $e->getMessage();
-        }   
-        catch(Exception $e){
-            echo $e->getMessage();
-        }
-        ?>
+            //deleting last visit
+            $stmt = $conn->prepare("DELETE FROM Visit WHERE 
+            Znumber=:Znumber");
+            $stmt->bindParam(':Znumber', $Znumber);
+            $stmt->execute();            
+                
+    // remove all session variables
+    session_unset(); 
+
+    // destroy the session 
+    session_destroy(); 
+    echo "You have logged out.";           
+    ?>
             </div>
         </div>
       </div>
+
     </body>
 </html>
