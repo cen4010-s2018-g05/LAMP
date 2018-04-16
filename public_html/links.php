@@ -24,13 +24,13 @@
             $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result= $stmt->fetchall();
             if (count($result) > 0) {
-                    echo "<table><tr><th>Product</th><th>Category</th><th>Link</th></tr>";
+                    echo "<table><tr><th>Product</th><th>Category</th><th>Link</th></tr>\n";
                     for($i=0;$i<count($result);$i++) {
                         $row = $result[$i];
                         //Product name button
                         echo "<tr><td>".$row["Product"]."</td><td>".$row["Category"]."</td>";
                         //message details
-                        echo "<td><a href='".$row["Link"]."/index.html'>".$row["Product"]."</a>  </td></tr>";
+                        echo "<td><a href='".$row["Link"]."/index.html'>".$row["Product"]."</a>  </td></tr>\n";
                     }
                     echo "</table>";
                 } else {

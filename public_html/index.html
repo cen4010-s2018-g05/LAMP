@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -57,7 +57,7 @@
     <!-- Page Content -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-8 text-center">
           <h1 class="mt-5">Group 5</h1>
           <p class="lead">Information about our group</p>
             <p>This page is made using Bootstrap framework.</p>
@@ -71,8 +71,37 @@
 
           </ul>
         </div>
+        
+              <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+            
+        
+          <div class="card my-4">
+            <h5 class="card-header">Search product names and keywords</h5>
+            <div class="card-body">
+                <form  action="searchresult.php" method="post">
+              
+                    <div class="form-group">
+                                     <label for="keywordinput">Search</label>
+                    <input type="text" class="form-control" id="keywordinput" name="keywordinput"  placeholder="Search for...">
+                    </div>
+
+                 <div class="row justify-content-center">
+                  <div class="col-sm-2 mb-2">
+                      <button type="submit" class="btn" id="submitbtn">Submit</button>                   
+                    </div>
+                  </div>
+              
+                 </form>
+            </div>
+          </div> 
+          
+          
+          
       </div>
     </div>
+      </div>    
+  
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>

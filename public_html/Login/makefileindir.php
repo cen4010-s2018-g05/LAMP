@@ -46,17 +46,18 @@
         </div> 
       </div>
     </nav>
-
+        <div class="conatiner">
+            <div class="row">
+                
         <?php
         
         function makedir($name){
               if (is_dir($name)){
 
-              echo ("$name is a directory");
               }
             else
               {
-              echo ("$name is not a directory making one now");
+              
                 mkdir($name, 0775);
               }  
         }
@@ -103,9 +104,20 @@
             $Extra1= $_POST[htmlspecialchars("ex1")];
             $Extra2= $_POST[htmlspecialchars("ex2")];
             $Extra3= $_POST[htmlspecialchars("ex3")];
+            $Keyword1= $_POST[htmlspecialchars("key1")];
+            $Keyword2= $_POST[htmlspecialchars("key2")];
             $Descriptionshort= $_POST[htmlspecialchars("short")];
             $Descriptionlong= $_POST[htmlspecialchars("long")];
             
+             $sql = $conn->prepare("SELECT * from Inventory WHERE Product = :Product
+             ");
+            $sql->bindParam(':Product', $Product);
+            $sql->execute();
+            $flag = $sql->setFetchMode(PDO::FETCH_ASSOC);
+            $result= $sql->fetchAll();        
+                        
+            if (count($result)==0){
+                
             //saving to database
              $sql = $conn->prepare("INSERT INTO Inventory (Product, SKU, Newark, Category, Cost , Quantity, Descriptionshort, Descriptionlong, ISBN, Extra1, Extra2, Extra3) Values (:Product, :SKU, :Newark, :Category, :Cost , :Quantity, :Descriptionshort, :Descriptionlong, :ISBN, :Extra1, :Extra2, :Extra3)
              ");
@@ -136,7 +148,7 @@
             // use exec() because no results are returned
             $sql->execute();        
             
-             $sql = $conn->prepare("INSERT INTO Location (Product, Location1, Location2, Location3) Values (:Product, :Location1, :Location2, :Location3)
+            $sql = $conn->prepare("INSERT INTO Location (Product, Location1, Location2, Location3) Values (:Product, :Location1, :Location2, :Location3)
              ");
             $sql->bindParam(':Product', $Product);
             $sql->bindParam(':Location1', $Location1);
@@ -148,15 +160,34 @@
             $sql = $conn->prepare("INSERT INTO Link (Product, Category, Link) Values (:Product, :Category, :Link)
              ");
             $Link = $_POST[htmlspecialchars("cat")]."/".$itemname;
+            //replaces '%' with '%25' which should fix error with bad links
+            $Link = str_replace('%', '%25', $Link);    
             $sql->bindParam(':Link', $Link);       
             $sql->bindParam(':Product', $Product); 
             $sql->bindParam(':Category', $Category);
             // use exec() because no results are returned
             $sql->execute();        
-            //end mysql
-            $conn = null;
-            $money = round($Retail,2);
+                
+            $sql = $conn->prepare("INSERT INTO Keyword (Product, Keyword) Values (:Product, :Keyword)
+             ");
+            
+            //will only add to database if keywords are present
+            if(!empty($Keyword1)){
+                $Keyword = $Keyword1;
+                $sql->bindParam(':Product', $Product);     
+                $sql->bindParam(':Keyword', $Keyword); 
+                $sql->execute(); 
+            }  
+            if(!empty($Keyword2)){
+                $Keyword = $Keyword2;
+                $sql->bindParam(':Product', $Product);     
+                $sql->bindParam(':Keyword', $Keyword); 
+                $sql->execute(); 
+            }      
+            
 
+                
+            $money = number_format((float)$Retail, 2, '.', '');    
             //creating new file, will overwrite exsisting file
             $myfile = fopen($filename,"w");
             fwrite($myfile, '
@@ -271,6 +302,8 @@
               <p class="card-text">Extra1 : '.$Extra1.'</p>
               <p class="card-text">Extra2 : '.$Extra2.'</p>
               <p class="card-text">Extra3 : '.$Extra3.'</p>
+              <p class="card-text">Keyword1 : '.$Keyword1.'</p>
+              <p class="card-text">Keyword2 : '.$Keyword2.'</p>
             </div>
           </div>
           <!-- /.card -->
@@ -304,16 +337,24 @@
             
             ');
             fclose($myfile);
-            echo 'Saved to file.';
-                
             
-
+            echo "<p>Adding ". $Product." to category " .$Category."</p>
+                <p>Please view here: <a href='../".$Link."/index.html'>".$Product."</a></p>";
+                
+            }
+            else{
+                echo $Product." already exsists";
+            }    
+            //end mysql
+            $conn = null;
             }
         }
         catch (Exception $e){
             echo 'Message: ' .$e->getMessage();
         }
         ?>
+            </div>
+        </div>
     
     </body>
 </html>
