@@ -8,7 +8,7 @@
 * [Milestone 4](https://github.com/cen4010-s2018-g05/LAMP/blob/master/public_html/Documents/Milestone%204%20BetaLaunch.docx)
 
 ## Beta site: 
-(http://lamp.eng.fau.edu/~CEN4010_S2018g05/)
+http://lamp.eng.fau.edu/~CEN4010_S2018g05/
 
 ## Our team's YouTube channel:
 
