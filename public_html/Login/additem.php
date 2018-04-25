@@ -40,7 +40,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="index.php">Login</a>
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>

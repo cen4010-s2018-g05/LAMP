@@ -4,12 +4,10 @@
 <?php
         //used to make staff account -> hashes password
         try{
-        $email = "Staff@fau.edu";
-        $pass = "Staffpass";
+        $email = "Admin@fau.edu";
+        $pass = "Adminpass";
         
         //entering mysql
-            $myfile = null;
-            
             $servername = "localhost";
             $username = "CEN4010_S2018g05";
             $password = "SQLgroup5";
@@ -20,7 +18,7 @@
         
         $sql = $conn->prepare("INSERT INTO Users (Email, Znumber, Password) Values (:Email, :Znumber, :Password)
              ");
-            $znum = 00000001;
+            $znum = 00000000;
             $passhash = password_hash($pass, PASSWORD_DEFAULT);
             $sql->bindParam(':Email', $email);
             $sql->bindParam(':Znumber', $znum);
@@ -31,7 +29,7 @@
         $sql = $conn->prepare("INSERT INTO Type (Znumber, Type) Values (:Znumber, :Type)
              ");
         $sql->bindParam(':Znumber', $znum);
-        $type = "staff";
+        $type = "admin";
         $sql->bindParam(':Type', $type);
                
         // use exec() because no results are returned

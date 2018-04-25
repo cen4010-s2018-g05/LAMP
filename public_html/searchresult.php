@@ -1,7 +1,19 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117910499-1');
+</script>
       
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -74,7 +86,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+                            <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -161,7 +182,7 @@
                         
                         for ($x = 0; $x < count($result); $x++){ 
                             echo '<br>
-                            <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                            <a href="'.$result[$x]["Link"].'/">'.$result[$x]["Product"].'</a>
                     '; 
                         }
                     }
