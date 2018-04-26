@@ -17,10 +17,10 @@
       
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Add Keyword">
+    <meta name="description" content="Results">
     <meta name="author" content="Neil">
 
-    <title>Inventory</title>
+    <title>Search Result</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -144,7 +144,7 @@
                 //at least 1 product was found; display on screen
                 for ($x = 0; $x < count($result); $x++){
                     echo '<br>
-                    <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                    <a href="'.$result[$x]["Link"].'/">'.$result[$x]["Product"].'</a>
                     '; 
                     array_push($listresult, $result[$x]["Product"]);
                 }
