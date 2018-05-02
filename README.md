@@ -14,3 +14,4 @@ http://lamp.eng.fau.edu/~CEN4010_S2018g05/
 
 [Grupo Fivo - YouTube](https://www.youtube.com/channel/UCfN63YCwAliQ8laMb2W7P0A/)
 
+* [Web Store Beta Launch](https://youtu.be/E31DpzTzXH0)
