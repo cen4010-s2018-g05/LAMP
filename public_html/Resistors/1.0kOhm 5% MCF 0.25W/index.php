@@ -1,18 +1,29 @@
-<?php
-//displays product information, requires variables to be already delcared
 
-    echo ' 
-<!DOCTYPE html>
+            
+<?php
+    session_start();
+?>
+            <!DOCTYPE html>
 <html lang="en">
 
   <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag("js", new Date());
+
+ gtag("config", "UA-117910499-1");
+</script>
+      
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Template for items">
     <meta name="author" content="Neil">
 
-    <title>'. $Product.'</title>
+    <title>1.0kOhm 5% MCF 0.25W</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +55,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/login.html">Login</a>
+                            <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -67,10 +87,10 @@
           <div class="card mt-3 mb-2">
             <img class="card-img-top img-fluid" src="" alt="">
             <div class="card-body">
-              <h3 class="card-title">'.$Product.'</h3>
+              <h3 class="card-title">1.0kOhm 5% MCF 0.25W</h3>
                 <div class="row">
                     <div class="col-lg-2 col-md-12">
-                        <h4>$'.$Retail.'</h4>                    
+                        <h4>$0.08</h4>                    
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-4">
 
@@ -94,25 +114,29 @@
                     </div>
                 </div> 
 
-              <p class="card-text">Vendor : '.$Vendor.'</p>
-              <p class="card-text">SKU : '.$SKU.'</p>
-              <p class="card-text">Newark : '.$Newark.'</p>
-              <p class="card-text">Category : '.$Category.'</p>
-              <p class="card-text">Cost : '.$Cost.'</p>
-              <p class="card-text">Quantity : '.$Quantity.'</p>              
-              <p class="card-text">Retail : '.$Retail.'</p>
-              <p class="card-text">Bulk : '.$Bulk.'</p>
-              <p class="card-text">Jobber : '.$Jobber.'</p>
-              <p class="card-text">Location1 : '.$Location1.'</p>
-              <p class="card-text">Location2 : '.$Location2.'</p>
-              <p class="card-text">Location3 : '.$Location3.'</p>
-              <p class="card-text">Description Long : '.$Descriptionlong.'</p>
-              <p class="card-text">Description Short : '.$Descriptionshort.'</p>
-              <p class="card-text">ISBN : '.$ISBN.'</p>
-              <p class="card-text">Extra1 : '.$Extra1.'</p>
-              <p class="card-text">Extra2 : '.$Extra2.'</p>
-              <p class="card-text">Extra3 : '.$Extra3.'</p>
-              <p class="card-text">Keywords : '.$Keywordlist.'</p>
+              <p class="card-text">Vendor : </p>
+              <p class="card-text">SKU : RQ-102</p>
+              <p class="card-text">Newark : 16X9589</p>
+              <p class="card-text">Category : Resistors</p>
+              <p class="card-text">Cost : 0.0081</p>
+              <p class="card-text">Quantity : 5000</p>              
+              <p class="card-text">Retail : 0.08</p>
+              <p class="card-text">Bulk : 0.04</p>
+              <p class="card-text">Jobber : 0.02</p>
+              <p class="card-text">Location1 : </p>
+              <p class="card-text">Location2 : </p>
+              <p class="card-text">Location3 : </p>
+              <p class="card-text">Description Long : 1.0kOhm 5% MCF 0.25W
+RQ-102
+16X9589</p>
+              <p class="card-text">Description Short : 1.0kOhm 5% MCF 0.25W
+</p>
+              <p class="card-text">ISBN : </p>
+              <p class="card-text">Extra1 : </p>
+              <p class="card-text">Extra2 : </p>
+              <p class="card-text">Extra3 : </p>
+              <p class="card-text">Keyword1 : 1/4 W Resistor 5%</p>
+              <p class="card-text">Keyword2 : through hole</p>
             </div>
           </div>
           <!-- /.card -->
@@ -129,14 +153,13 @@
     
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/popper/popper.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
 
   </body>
 
 </html>
-'
 
-
-?>
+            
+            

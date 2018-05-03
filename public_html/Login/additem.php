@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +11,7 @@
     <meta name="description" content="Login page">
     <meta name="author" content="Neil">
 
-    <title>Profile</title>
+    <title>Add New Item</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +22,9 @@
     
   </head>
     <body>
-           <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+           <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Group 5</a>
+        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,7 +40,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -53,36 +65,216 @@
             <div class="col-sm-12">
     <?php
         try{
-           $verified = true;
+           include "fastvalidate.php";
             if ($verified == true){
              echo '
         
-        <h3>Add new Item</h3>
-        <form id="part1" action="makefileindir.php" method="post">
-        <p>    
-        Category name:<input type="text" name="cat" value="Misc" required><br>
-        Product name:<input type="text" name="item" value="" required><br>
-        SKU:<input type="text" name="sku" value=""><br>
-        Newark:<input type="text" name="newark" value=""><br>
-        Quantity:<input type="text" name="qty" value=""><br>
-        Cost:<input type="text" name="cost" value="" required><br>
-        Retail:<input type="text" name="retail" value=""><br>
-        Bulk:<input type="text" name="bulk" value=""><br>
-        Jobber:<input type="text" name="jobber" value=""><br>
-        ISBN:<input type="text" name="isbn" value=""><br>
-        Vendor:<input type="text" name="vendor" value=""><br>
-        Location1:<input type="text" name="loc1" value=""><br>
-        Location2:<input type="text" name="loc2" value=""><br>
-        Location3:<input type="text" name="loc3" value=""><br>
-        Short Description:<textarea name="short" value=""></textarea><br>
-        Long Description:<textarea type="text" name="long" value=""></textarea><br>
-        Extra1:<input type="text" name="ex1" value=""><br>
-        Extra2:<input type="text" name="ex2" value=""><br>
-        Extra3:<input type="text" name="ex3" value=""><br>
-        Keyword1:<input type="text" name="key1" value=""><br>
-        Keyword2:<input type="text" name="key2" value=""><br>
-        <input type="submit" name="submit1" vaule="Submit"> 
-            </p>
+<h3 id="additem">Add new Item</h3>
+<form id="part1" action="makefileindir.php" method="post">
+
+  <div class="container">
+    <div class="row justify-content-start">
+      <div class="col"><p>Category name:</p></div>
+      <div class="col"><input type="text" name="cat" value="Misc" required></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Product name:</p></div>
+      <div class="col"><input type="text" name="item" value="" required></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>SKU:</p></div>
+      <div class="col"><input type="text" name="sku" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Newark:</p></div>
+      <div class="col"><input type="text" name="newark" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Quantity:</p></div>
+      <div class="col"><input type="text" name="qty" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Cost:</p></div>
+      <div class="col"><input type="text" name="cost" value="" required></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Retail:</p></div>
+      <div class="col"><input type="text" name="retail" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Bulk:</p></div>
+      <div class="col"><input type="text" name="bulk" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Jobber:</p></div>
+      <div class="col"><input type="text" name="jobber" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>ISBN:</p></div>
+      <div class="col"><input type="text" name="isbn" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Vendor:</p></div>
+      <div class="col"><input type="text" name="vendor" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Location1:</p></div>
+      <div class="col"><input type="text" name="loc1" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Location2:</p></div>
+      <div class="col"><input type="text" name="loc2" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Location3:</p></div>
+      <div class="col"><input type="text" name="loc3" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Short Description:</p></div>
+      <div class="col"><textarea name="short" value=""></textarea></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Long Description:</p></div>
+      <div class="col"><textarea type="text" name="long" value=""></textarea></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Extra1:</p></div>
+      <div class="col"><input type="text" name="ex1" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Extra2:</p></div>
+      <div class="col"><input type="text" name="ex2" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Extra3:</p></div>
+      <div class="col"><input type="text" name="ex3" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Keyword1:</p></div>
+      <div class="col"><input type="text" name="key1" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"><p>Keyword2:</p></div>
+      <div class="col"><input type="text" name="key2" value=""></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <div class="row justify-content-start">
+      <div class="col"></div>
+      <div class="col"><input type="submit" name="submit1" vaule="Submit"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
+    </div>
+    <br>
+    <br>
+
+  </div>      
+</form>
         
                 ';
             }
@@ -101,7 +293,13 @@
     ?>
             </div>
         </div>
-        </div>    
+        </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/popper/popper.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    
     </body>
 </html>    
 

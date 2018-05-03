@@ -1,19 +1,18 @@
         <?php
                 
-        try{
             $verified = false;
-            //cookie
-            if (isset($_COOKIE["email"])){
-                $email = htmlspecialchars($_COOKIE["email"]); 
-                $tempID = htmlspecialchars($_COOKIE["ID"]); 
+            
+            if (!empty($_SESSION["email"])){
+                $email = htmlspecialchars($_SESSION["email"]); 
+                $tempID = htmlspecialchars($_SESSION["id"]); 
+                $Znumber = htmlspecialchars($_SESSION["znum"]); 
             }
             else {
+                echo "Session not detected";
                 include "loginecho.php";
                 throw new Exception("Due to inactivity, please login again");
             }
             //entering mysql
-            $myfile = null;
-            
             $servername = "localhost";
             $username = "CEN4010_S2018g05";
             $password = "SQLgroup5";
@@ -21,52 +20,64 @@
             $conn = new PDO("mysql:host=$servername;dbname=CEN4010_S2018g05",trim($username),trim($password));
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            //searching for matching username
-            $stmt = $conn->prepare("SELECT * FROM Users WHERE 
-            Email='$email'");
+            //searching for last visit
+            $stmt = $conn->prepare("SELECT * FROM Visit WHERE 
+            Znumber=:Znumber");
+            $stmt->bindParam(':Znumber', $Znumber);
             $stmt->execute();
             $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result= $stmt->fetchall();
             if (count($result) == 0) {
-                //did not find matching username and password
+                //did not find matching znumber
                 include "loginecho.php";
-                throw new Exception("Account not found or incorrect password. Please try again");
+                throw new Exception("Please login again");
             }
-            //stores array in account then into individual variables
-            $account = $result[0];
-            $Znumber = $account["Znumber"];
-            $email = $acount["Email"];
-            $result[0]=null;
-            $account = null;
-            //determine if password or cookie was used
-
-                $stmt = $conn->prepare("SELECT * FROM Visit WHERE 
-                Znumber='$Znumber'");
-                $stmt->execute();
-                $result= $stmt->fetchall();
-                $IDval = $result[0]["TempID"];
-                $Time = $result[0]["Time"];
-                $result[0]=null;
-                //compare time if >1hour not valid
-                $current = date("d/m/y : H:i:s", time());
-                if ($current > $Time){
+            //check time
+            
+            $current = date("d/m/y : H:i:s", time());
+            if ($current > $result[0]["Date"]){
+                print_r($result);
+                    //previous session expired delete last visit
+                    $stmt = $conn->prepare("DELETE FROM Visit WHERE 
+                    Znumber=:Znumber");
+                    $stmt->bindParam(':Znumber', $Znumber);
+                    $stmt->execute();            
+                
                     include "loginecho.php";
                     throw new Exception("Due to inactivity, please login again");
-                }
-                //check if matching ID
-                if ($tempID == $IDval){
-                    $verified = true;
-                    //generate new TempID
-                    $newtemp = var_dump(bin2hex(random_bytes(5)));
-                    //set cookie
-                    setkookie("email", $email, time() + 3600, "/")
-                    setkookie("ID", $newtemp, time() + 3600, "/")
-                    //update database
-                    $current = date("d/m/y : H:i:s", time()+ 3600);
-                    $stmt = $conn->prepare("UPDATE Visit SET TempID='$newtemp' AND Time ='$current' WHERE Znumber='$Znumber'");
-                    $stmt->execute();
-                
             }
+            if ($_SESSION["id"]== $result[0]["TempID"]){
+                //valid time and id
+                //check if staff
+                $stmt = $conn->prepare("SELECT * FROM Type WHERE 
+                Znumber=:Znumber");
+                $stmt->bindParam(':Znumber', $Znumber);
+                $stmt->execute();
+                $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $result= $stmt->fetchall();
+                if (count($result) == 0) {
+                    //did not find matching znumber
+                    throw new Exception("You do not have access to this page");
+                    
+                }
+                //user is staff or admin
+                $verified = true;
+                //generate new TempID
+                $newtemp = bin2hex(random_bytes(5));
+                $_SESSION["id"]=$newtemp;
+                $stmt = $conn->prepare("UPDATE Visit SET TempID = :TempID, Date = :Date WHERE Znumber = :Znumber 
+                ");
+                $current = date("d/m/y : H:i:s", time()+ 3600);
+                $stmt->bindParam(':Znumber', $_SESSION["znum"]);
+                $stmt->bindParam(':TempID', $_SESSION["id"]);
+                $stmt->bindParam(':Date', $current);
+                $stmt->execute();
+                //update database
+                $stmt->execute();
+
+
+            }
+ 
             
             //Valid Login           
 

@@ -2,7 +2,7 @@
           echo '<form action="profile.php" method="post">    
                   <div class="form-group">
                   <label for="name">Email</label>
-                    <input type="text" class="form-control" id="name" name="name"  pattern=".{1,20}" placeholder="Enter Username">
+                    <input type="text" class="form-control" id="email" name="email"  pattern=".{1,20}" placeholder="Enter Username">
                     </div>
 
                  <div class="form-group">

@@ -1,8 +1,129 @@
 body {
     padding-top: 54px;
  }
+
 @media (min-width: 992px) {
      body {
        padding-top: 56px;
      }
+}
+
+/* global */
+/**********/
+a:link {
+	color: #79ade2;
+}
+
+a:hover, a:active {
+	color: #8ec6ff;
+}
+
+a:visited {
+	color: #6b98c6;
+}
+
+.card-header {
+	background-color: #dee9f2;
+}
+
+.card-body {
+	background-color: #f7fbff;
+}
+
+/* navbar */
+/**********/
+.nav-item {
+	padding-left: 15px;
+}
+
+/* home */
+/********/
+#submitbtn-home {
+	position: relative;
+	top: 10px;
+	right: 20px;
+}
+
+/* login */
+/*********/
+#submitbtn-login {
+	position: relative;
+	top: -50px;
+}
+
+/* search results */
+/******************/
+.search-result {
+
+}
+
+.container .row h3 {
+	padding-left: 13px;
+	padding-top: 20px;
+}
+
+/* profile */
+/***********/
+.container .row .col-sm-12 h1 {
+	padding-top: 20px;
+}
+
+/* profile, links */
+/******************/
+tr th, tr td {
+	padding-top: 30px;
+	padding-right: 150px;
+}
+
+/* create account */
+/******************/
+.form-group .form-row {
+	padding-top: 20px;
+}
+
+.form-group .form-row .col-md-6.col-sm-12 {
+	padding-top: 10px;
+}
+
+.form-group .form-row input {
+	width: 200px;
+}
+
+.form-group .form-row #year {
+	width: 75px;
+}
+
+.form-group .form-row #fname, .form-group .form-row #lname,
+.form-group .form-row #email, .form-group .form-row #phone {
+	width: 200px;
+}
+
+.row.justify-content-start .col-sm-2.mb-2 {
+	padding-top: 40px;
+}
+
+/* items */
+h3.card-title {
+	margin-left: -15px;
+	margin-bottom: 30px;
+}
+
+div + p.card-text {
+	margin-top: 30px;
+}
+
+/* add item */
+/************/
+form#part1 p {
+	text-align: right;
+}
+
+h3#additem {
+	margin-left: -15px;
+	margin-bottom: 30px;
+}
+
+input[name="submit1"] {
+	position: relative;
+	right: 5px;
 }

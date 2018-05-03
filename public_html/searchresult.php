@@ -1,14 +1,26 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117910499-1');
+</script>
       
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Add Keyword">
+    <meta name="description" content="Results">
     <meta name="author" content="Neil">
 
-    <title>Inventory</title>
+    <title>Search Result</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -56,9 +68,9 @@
   <body>
 
      <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05">Group 5</a>
+        <a class="navbar-brand" href="#">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -74,7 +86,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+                            <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -87,7 +108,7 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-            <h3>Results</h3>
+            <h3>Search results:</h3>
                 <div class="col-sm-12">
 <?php
 
@@ -123,7 +144,7 @@
                 //at least 1 product was found; display on screen
                 for ($x = 0; $x < count($result); $x++){
                     echo '<br>
-                    <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                    <a class="search-result" href="'.$result[$x]["Link"].'/">'.$result[$x]["Product"].'</a>
                     '; 
                     array_push($listresult, $result[$x]["Product"]);
                 }
@@ -161,7 +182,7 @@
                         
                         for ($x = 0; $x < count($result); $x++){ 
                             echo '<br>
-                            <a href="'.$result[$x]["Link"].'/index.html">'.$result[$x]["Product"].'</a>
+                            <a href="'.$result[$x]["Link"].'/">'.$result[$x]["Product"].'</a>
                     '; 
                         }
                     }
@@ -186,5 +207,10 @@
             
         </div>
       </div>
+      
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     </body>
 </html>

@@ -1,10 +1,26 @@
 <?php
+function redirect(){
+    header('Location: profile.php');
+    die();
+}
 session_start();
+if (isset($_SESSION["email"])){
+    redirect();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117910499-1');
+</script>
       
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,9 +42,9 @@ session_start();
 
     <!-- Navigation -->
 <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Group 5</a>
+        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -74,19 +90,21 @@ session_start();
                     <input type="password" class="form-control" id="pass" name="pass" pattern=".{1,20}" placeholder="Password">
                  </div>
 
-                 <div class="row justify-content-center">
+                 <div class="row justify-content-start">
                   <div class="col-sm-2 mb-2">
-                      <button type="submit" class="btn" id="submitbtn">Submit</button>                   
+                    <br>
+                      <button type="submit" class="btn" id="submitbtn-login">Submit</button>                   
                     </div>
                   </div>
               </form>
           </div> <!-- end col -->
           <div class="col-lg-4 col-md-6 col-sm-12 text-center mb-2">
-              
-              <label for="newaccount">Don't have an account, make one here.</label>
+              <br>
+              <label for="newaccount">Don't have an account? Make one here.</label>
          <div class="row justify-content-center">
    
              <form action="CreateAccount/createaccount.html">
+              <br><br>
                 <button type="submit" class="btn" id="newaccount" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/CreateAccount/createaccount.html">Create New Account</button>                   
              </form>
           </div>
@@ -99,18 +117,12 @@ session_start();
     </div>
     <!-- /.container -->
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Site 2018</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+    
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/popper/popper.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
   </body>
 

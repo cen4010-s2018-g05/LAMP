@@ -2,15 +2,7 @@
 <html lang="en">
 
   <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-117910499-1');
-</script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,7 +42,7 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">Login</a>
+              <a class="nav-link" href="Login/login.html">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -80,10 +72,6 @@
             if (empty($znumber)){
                 throw new Exception("Please enter a valid Znumber (do not enter the Z)");
             }
-
-            if ($znumber > 99999999 or $znumber < 0){
-                throw new Exception("Please enter a valid Znumber (do not enter the Z)");
-            }
             if (empty($pass1)){
                 throw new Exception("Please enter a confirmed password");
             }
@@ -108,9 +96,7 @@
             
             //searching for name
             $stmt = $conn->prepare("SELECT * FROM Users WHERE 
-            (Znumber=:Znumber) OR (Email =:Email)");
-            $stmt->bindParam(':Znumber', $znumber);
-            $stmt->bindParam(':Email', $email);
+            Znumber='$znumber'");
             $stmt->execute();
             $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result= $stmt->fetchAll();
@@ -122,11 +108,11 @@
             $hashpass = password_hash($pass2, PASSWORD_DEFAULT);
 
             //valid username
-             $sql = $conn->prepare("INSERT INTO Users (Znumber, Password, Email, First, Last, Gradyear, Phone) Values (:Znumber, :Pass, :Email, :Fname, :Lname, :Gradyear, :Phone)
+             $sql = $conn->prepare("INSERT INTO Users (Znumber, Password, Email, Fname, Lname, Gradyear, Phone) Values (:Znumber, :Pass, :Email, :Fname, :Lname, :Gradyear, :Phone)
              ");
 
             $sql->bindParam(':Znumber', $znumber);
-            $sql->bindParam(':Pass', $hashpass);
+            $sql->bindParam(':Pass', $passhash);
             $sql->bindParam(':Email', $email);
             $sql->bindParam(':Fname', $fname);
             $sql->bindParam(':Lname', $lname);
@@ -138,7 +124,7 @@
            
            $conn = null; 
             echo "Account created, please log in";
-            //include "../loginecho.php";
+            include "loginecho.php";
             
         }
         catch(PDOException $e){
@@ -159,9 +145,9 @@
     
 
     <!-- Bootstrap core JavaScript -->
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/popper/popper.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
   </body>
 

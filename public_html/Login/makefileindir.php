@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +11,7 @@
     <meta name="description" content="Login page">
     <meta name="author" content="Neil">
 
-    <title>Profile</title>
+    <title>Add item</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +22,9 @@
     
   </head>
     <body>
-           <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+           <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Group 5</a>
+        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,7 +40,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+            <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -48,7 +60,7 @@
     </nav>
         <div class="conatiner">
             <div class="row">
-                
+                <div class="col-sm-12">
         <?php
         
         function makedir($name){
@@ -64,16 +76,7 @@
         
         try {
             //entering mysql
-            $myfile = null;
-            
-            $servername = "localhost";
-            $username = "CEN4010_S2018g05";
-            $password = "SQLgroup5";
-            //connecting to mysql
-            $conn = new PDO("mysql:host=$servername;dbname=CEN4010_S2018g05",trim($username),trim($password));
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-            $verified = true;
+            include "fastvalidate.php";
             if ($verified == true){
             $dirname = "../" . $_POST[htmlspecialchars("cat")];
 
@@ -85,7 +88,7 @@
             //rmdir($dirname);
             
                 //form var
-            $filename = $dirname."/".$itemname."/index.html";
+            $filename = $dirname."/".$itemname."/index.php";
             $Product = $itemname;
             $Category = $_POST[htmlspecialchars("cat")];
             $vendor = $_POST[htmlspecialchars("vendor")];
@@ -112,6 +115,7 @@
              $sql = $conn->prepare("SELECT * from Inventory WHERE Product = :Product
              ");
             $sql->bindParam(':Product', $Product);
+                
             $sql->execute();
             $flag = $sql->setFetchMode(PDO::FETCH_ASSOC);
             $result= $sql->fetchAll();        
@@ -192,10 +196,23 @@
             $myfile = fopen($filename,"w");
             fwrite($myfile, '
             
+<?php
+    session_start();
+?>
             <!DOCTYPE html>
 <html lang="en">
 
   <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag("js", new Date());
+
+ gtag("config", "UA-117910499-1");
+</script>
+      
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -217,9 +234,9 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Group 5</a>
+        <a class="navbar-brand" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -234,7 +251,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/login.html">Login</a>
+                            <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -317,18 +343,12 @@
     </div>
     <!-- /.container -->
 
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+    
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/popper/popper.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
   </body>
 
@@ -339,11 +359,12 @@
             fclose($myfile);
             
             echo "<p>Adding ". $Product." to category " .$Category."</p>
-                <p>Please view here: <a href='../".$Link."/index.html'>".$Product."</a></p>";
+                <p>Please view here: <a href='../".$Link."/'>".$Product."</a></p>";
                 
             }
             else{
-                echo $Product." already exsists";
+                echo $Product." already exsists.";
+             
             }    
             //end mysql
             $conn = null;
@@ -353,6 +374,7 @@
             echo 'Message: ' .$e->getMessage();
         }
         ?>
+                </div>
             </div>
         </div>
     

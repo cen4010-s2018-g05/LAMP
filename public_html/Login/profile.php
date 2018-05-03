@@ -1,8 +1,20 @@
-
+<?php
+    session_start()
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117910499-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117910499-1');
+</script>
       
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,9 +32,9 @@
     
   </head>
     <body>
-           <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+           <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #b8c6d1;">
       <div class="container">
-        <a class="navbar-brand" href="#">Group 5</a>
+        <a class="navbar-brand" href="#">Perry's Parts Pavilion Access Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,7 +42,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -38,7 +50,16 @@
               <a class="nav-link" href="#">Shop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Login/login.html">Login</a>
+              <a class="nav-link" href="http://lamp.eng.fau.edu/~CEN4010_S2018g05/Login/">
+                  <?php
+                    if (isset($_SESSION["email"])){
+                        echo $_SESSION["email"];
+                    }
+                    else {
+                        echo "Login";
+                    }            
+                    ?>  
+                </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -53,23 +74,28 @@
         try{
             $verified = false;
             //form var
-            $Email = $_POST[htmlspecialchars("email")];
-            $pass = $_POST[htmlspecialchars("pass")];
-            //cookie
-            if (isset($_COOKIE["email"])){
-                $Email = htmlspecialchars($_COOKIE["email"]); 
-                $tempID = htmlspecialchars($_COOKIE["ID"]); 
+            
+            
+            if (!empty($_SESSION["email"])){
+                $Email = htmlspecialchars($_SESSION["email"]); 
+                $tempID = htmlspecialchars($_SESSION["id"]);
+                $znum = htmlspecialchars($_SESSION["znum"]);
+
+            }
+            else{
+                $Email = $_POST[htmlspecialchars("email")];
+                $pass = $_POST[htmlspecialchars("pass")];
             }
 
             if (empty($Email)){
+                include "loginecho.php";
                 throw new Exception("Please enter a Email");
             }
             if (empty($pass) and empty($tempID)){
+                include "loginecho.php";
                 throw new Exception("Please enter a password");
             }
             //entering mysql
-            $myfile = null;
-            
             $servername = "localhost";
             $username = "CEN4010_S2018g05";
             $password = "SQLgroup5";
@@ -79,7 +105,8 @@
             
             //searching for matching username
             $stmt = $conn->prepare("SELECT * FROM Users WHERE 
-            Email='$Email'");
+            Email=:Email");
+            $stmt->bindParam(':Email', $Email);
             $stmt->execute();
             $flag = $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $result= $stmt->fetchall();
@@ -104,23 +131,46 @@
             $result[0]=null;
             $account = null;
             //determine if password or cookie was used
-            if (isset($pass)){
+            if (!empty($pass)){
                 
                 if (password_verify($pass, $hashpass)){
                     $verified = true;
+                    $_SESSION["email"] = $Email;
+                    $_SESSION["znum"] = $Znumber;
+                    $newtemp = bin2hex(random_bytes(5));
+                    $_SESSION["id"] = $newtemp;
+                    
+                    $stmt = $conn->prepare("INSERT INTO Visit (Znumber, TempID, Date) Values  (:Znumber, :TempID, :Date) 
+                    ");
+                    $current = date("d/m/y : H:i:s", time()+ 3600);
+                    $stmt->bindParam(':Znumber', $_SESSION["znum"]);
+                    $stmt->bindParam(':TempID', $_SESSION["id"]);
+                    $stmt->bindParam(':Date', $current);
+                    $stmt->execute();
                 }
             }
             else{
                 $stmt = $conn->prepare("SELECT * FROM Visit WHERE 
-                Znumber='$Znumber'");
+                Znumber=:Znumber");
+                $stmt->bindParam(':Znumber', $Znumber);
                 $stmt->execute();
                 $result= $stmt->fetchall();
+                if (count($result) > 0){
                 $IDval = $result[0]["TempID"];
-                $Time = $result[0]["Time"];
+                $Time = $result[0]["Date"];
                 $result[0]=null;
                 //compare time if >1hour not valid
                 $current = date("d/m/y : H:i:s", time());
                 if ($current > $Time){
+                    $stmt = $conn->prepare("DELETE FROM Visit WHERE 
+                    Znumber=:Znumber");
+                    $stmt->bindParam(':Znumber', $Znumber);
+                    $stmt->execute();  
+                    // remove all session variables
+                    session_unset(); 
+
+                    // destroy the session 
+                    session_destroy(); 
                     include "loginecho.php";
                     throw new Exception("Due to inactivity, please login again");
                 }
@@ -128,25 +178,34 @@
                 if ($tempID == $IDval){
                     $verified = true;
                     //generate new TempID
-                    $newtemp = var_dump(bin2hex(random_bytes(5)));
+                    $newtemp = bin2hex(random_bytes(5));
+                    $_SESSION["id"]= $newtemp;
+                    
                     //set cookie
-                    setkookie("email", $email, time() + 3600, "/");
-                    setkookie("newID", $newtemp, time() + 3600, "/");
-                    //update database
+                    $stmt = $conn->prepare("UPDATE Visit SET TempID = :TempID, Date = :Date WHERE Znumber = :Znumber 
+                    ");
                     $current = date("d/m/y : H:i:s", time()+ 3600);
-                    $stmt = $conn->prepare("UPDATE Visit SET TempID='$newtemp' AND Time ='$current' WHERE Znumber='$Znumber'");
+                    $stmt->bindParam(':Znumber', $_SESSION["znum"]);
+                    $stmt->bindParam(':TempID', $_SESSION["id"]);
+                    $stmt->bindParam(':Date', $current);
                     $stmt->execute();
+                    //update database
+                    
+                    $stmt->execute();
+                }
+                    
                 }
                 else {
                     include "loginecho.php";
-                    throw new Exception("Missmatched ID, due to inactivity or use on a different computer. Please login again.");
+                    throw new Exception("Please login again.");
                 }
             }
             
             //Valid Login
             //check account type
             $stmt = $conn->prepare("SELECT * FROM Type WHERE 
-            Znumber='$Znumber'");
+            Znumber=:Znumber");
+            $stmt->bindParam(':Znumber', $Znumber);
             $stmt->execute();
             $result= $stmt->fetchall();
             if (count($result) == 0) {
@@ -166,12 +225,13 @@
                 if ($type == "staff"){
                  echo '
             
-                <div class="col-sm-4">    
+                <div class="col-sm-4">
                     <form action="additem.php">
+                    <br><br>
                     <button type="submit" class="btn" id="additem" href="additem.php">Add new item</button>                   
                     </form>
                 </div>    
-            
+                 
                     ';
                     /* code for add keyword button
                     <form action="Staff/listinventory.php">
@@ -180,13 +240,22 @@
                     */
                 }
                 else if ($type =="user"){
+                    echo "<div class='col-sm-12'>";
                     echo "
                     <table><tr><th>Znumber</th><th>Email</th><th>Name</th><th>Phone</th><th>Grad Year</th></tr>";
                     echo "<tr><td>".$Znumber."</td><td>".$Email."</td>";
                         echo "<td>". $fname ." ". $lname." </td><td>".$phone."</td><td>".$year."</td></tr>";
-                        echo "</table>";
+                        echo "</table></div>";
+                    
                 }
-                
+                echo '
+                <div class="col-sm-4">
+                    <form action="logout.php">
+                    <br><br>
+                    <button type="submit" class="btn" id="logout" href="logout.php">Logout</button>                
+                    </form>
+                </div>   
+                ';
              }
             else{ echo "User and password did not match.";
                 include "loginecho.php";
@@ -204,5 +273,11 @@
 
             </div>
         </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/popper/popper.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
     </body>
 </html>
